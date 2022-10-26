@@ -6,6 +6,7 @@ namespace VeryNaiveDatalog;
 public static class Unification
 {
     private static bool TryUnify(Symbol s1, Symbol s2, Substitution _) => s1.Equals(s2);
+    private static bool TryUnify(Constant c1, Constant c2, Substitution _) => c1.Equals(c2);
         
     private static bool TryUnify(Variable v1, Term t2, Substitution env) =>
         env.TryGetValue(v1, out var t1) ? t1.Equals(t2) : env.TryAdd(v1, t2);
@@ -13,6 +14,7 @@ public static class Unification
     private static bool TryUnify(Term t1, Term t2, Substitution env) =>
         (t1, t2) switch
         {
+            (Constant c1, Constant c2) => TryUnify(c1, c2, env),
             (Symbol s1, Symbol s2) => TryUnify(s1, s2, env),
             (Variable v1, _) => TryUnify(v1, t2, env),
             (_, Variable v2) => TryUnify(v2, t1, env),

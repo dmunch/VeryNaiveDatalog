@@ -18,3 +18,8 @@ public sealed record Symbol(string Name) : Term
     public override Term Apply(Substitution env) => this;
     public override string ToString() => Name;
 }
+
+public record Constant : Term
+{
+    public override Term Apply(Substitution env) => this;
+}
