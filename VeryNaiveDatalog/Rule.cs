@@ -12,11 +12,11 @@ using System.Linq;
 /// parent(Homer,Lisa) -- a fact expressing that Homer is Lisa's parent
 /// ancestor(x,z):-ancestor(x,y),parent(y,z) -- a rule for deducing ancestors from parents
 /// </summary>
-public sealed record Rule(Atom Head, IEnumerable<Atom> Body)
+public record Rule(Atom Head, IEnumerable<Atom> Body)
 {
     public Rule(Atom head, params Atom[] body) : this(head, body.AsEnumerable()) {}
 
-    public bool Equals(Rule? other) => Head == other?.Head && Body.SequenceEqual(other.Body);
+    public virtual bool Equals(Rule? other) => Head == other?.Head && Body.SequenceEqual(other.Body);
     
     public override int GetHashCode() => HashCode.Combine(Head, Body.Aggregate(0, HashCode.Combine));
 
